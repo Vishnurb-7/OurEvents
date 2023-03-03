@@ -20,6 +20,7 @@ async function sendOtp(mobile) {
       .verifications.create({ to: `+91${mobile}`, channel: "sms" });
     return { status: true, verification };
   } catch (error) {
+    console.log(error.message);
     return { status: false, error };
   }
   return { status: verification.status };
@@ -33,6 +34,7 @@ async function otpVerifyFunction(otp, mobile) {
   if (verification_check.status == "approved") {
     return { status: true };
   } else {
+    console.log('status false')
     return { status: false };
   }
 }
@@ -40,27 +42,25 @@ async function otpVerifyFunction(otp, mobile) {
 
 const signupWithEmail = async (req, res) => {
 
-
-
   const hash = await bcrypt.hash(req.body.providerData.password, 5);
-
-  const provider = new Provider({
-    companyname: req.body.providerData.companyName,
-    description: req.body.providerData.description,
-    category: req.body.services,
-    place: req.body.place,
-    email: req.body.providerData.email,
-    mobile: req.body.providerData.phone,
-    password: hash,
-    certificate: req.body.certificateUrl,
-    verified: false,
-    approved: false,
-  });
-  try {
-
+    try {
+    const provider = new Provider({
+      companyname: req.body.providerData.companyName,
+      description: req.body.providerData.description,
+      category: req.body.services,
+      place: req.body.place,
+      email: req.body.providerData.email,
+      mobile: req.body.providerData.phone,
+      password: hash,
+      certificate: req.body.certificateUrl,
+      verified: false,
+      approved: false,
+    });
     await provider.save();
 
     const response = await sendOtp(req.body.providerData.phone);
+
+    console.log(response)
 
     if (response.status === true) {
       res.status(201).json({
@@ -74,6 +74,7 @@ const signupWithEmail = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error.message);
     res.status(400).json({ message: "error", error });
   }
 }
@@ -83,16 +84,17 @@ exports.signupWithEmail = signupWithEmail;
 
 const otpVerify = async (req, res) => {
   try {
-    const { mobile, otp } = req.body;
+    const { mobile, otp, email } = req.body;
 
     const response = await otpVerifyFunction(otp, mobile);
     if (response.status === true) {
-      await Provider.updateOne({ mobile }, { verified: true });
-      res.status(201).json({ message: "otp verification successful" });
+      await Provider.updateOne({ email }, { verified: true });
+      res.status(201).json({ message: "otp verification successfull" });
     } else {
       res.status(400).json({ message: " invalid otp verification " });
     }
   } catch (error) {
+    console.log(error.message);
     res.status(400).json({ message: "otp failed", error: error.massage });
   }
 };
@@ -258,8 +260,12 @@ const removeService = async (req, res) => {
 }
 exports.removeService = removeService;
 
-const addImage = async (req, res) => {
+
+
+const addimage = async (req, res) => {
+  console.log("imaaage is uploading===",req.body);
   const { imageUrl, managers } = req.body;
+
 
   if (imageUrl, managers) {
     try {
@@ -271,4 +277,53 @@ const addImage = async (req, res) => {
     }
   } else { res.status(500).json({ message: "error" }) }
 }
-exports.addImage = addImage;
+exports.addimage = addimage;
+
+
+const removeImage = async (req, res) => {
+  const { imageUrl, managers } = req.body;
+  if (imageUrl, managers) {
+    try {
+      const result = await Provider.findOneAndUpdate({ email: managers }, { $pull: { gallery: imageUrl } })
+
+      res.status(201).json({ message: "success" })
+    } catch (error) {
+      res.status(500).json({ message: error })
+    }
+  } else { res.status(500).json({ message: "error" }) }
+}
+exports.removeImage = removeImage;
+
+const editProfileGet = async (req, res) => {
+  const email = req.query.managers;
+  try {
+    const profile = await Provider.findOne({ email: email });
+    profile ?
+      res.status(201).json({ profile }) :
+      res.status(500).json({ message: "error" })
+  } catch (error) {
+    res.status(500).json({ message: "error" })
+  }
+
+}
+exports.editProfileGet = editProfileGet;
+
+const editProfilePut = async (req, res) => {
+  const { email, name, description, place } = req.body
+  if (req.body.coverPhotoUrl && req.body.profilePhotoUrl) {
+    try {
+      await Provider.findOneAndUpdate(email, { companyname: name, description: description, place: place, coverPhoto: req.body.coverPhotoUrl, profilePhoto: req.body.profilePhotoUrl })
+      res.status(201).json({ message: "success" })
+    } catch (error) {
+      res.status(500).json({ message: error })
+    }
+  } else {
+    try {
+      await Provider.findOneAndUpdate(email, { companyname: name, description: description, place: place, coverPhoto: "", profilePhoto: "" })
+      res.status(201).json({ message: "success" })
+    } catch (error) {
+      res.status(500).json({ message: error })
+    }
+  }
+}
+exports.editProfilePut = editProfilePut

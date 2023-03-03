@@ -1,20 +1,21 @@
-import React ,{useEffect,useState} from 'react'
-import { useNavigate , useParams} from 'react-router-dom'
+import { useToast } from '@chakra-ui/toast'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Navebar from '../components/NavBar'
 import ProvidersCard from '../components/ProvidersCard'
+import axios from '../utils/axios'
 import userAxios from '../utils/userAxios'
-import { useToast } from '@chakra-ui/toast'
-
-
+// import { useGeolocated } from "react-geolocated";
 
 const Providers = () => {
   const navigate = useNavigate()
   const { service } = useParams();
   const [data, setData] = useState("");
-  const [location, setLocation] = useState("Palakkad");
+  const [location, setLocation] = useState("Kottayam");
   const [done, setDone] = useState(false);
   const toast = useToast()
+  console.log('sercice',service);
 
   const [currLocationJs, setCurrLocationJs] = useState({});
 
@@ -27,6 +28,7 @@ const Providers = () => {
 
   useEffect(() => {
     userAxios.get(`/findManagers?service=${service}&place=${location}`).then((response) => {
+      console.log(response);
       if (response.status === 201) {
         if (response.data.length == 0) {
 
@@ -69,7 +71,9 @@ const Providers = () => {
         method: 'GET',
       };
 
-      fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=e6fb65f9141a4db98198812eebc6e560`, requestOptions)
+
+
+      fetch(` https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}=${longitude}&apiKey=e6210d6b01824d03b10001fe49941b68`, requestOptions)
         .then(response => response.json())
         .then(result => {
           setLocation(result.features[0].properties.county)

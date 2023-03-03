@@ -253,8 +253,11 @@ exports.changePassword = changePassword;
 const findManagers = async (req, res) => {
   const { service, place } = req.query;
 
+  console.log(req.query);
+
   try {
     const response = await Provider.find({ category: service, place: place })
+    console.log(response);
     res.status(201).json(response)
   } catch (error) {
     res.status(500).json({ message: error })
@@ -263,6 +266,7 @@ const findManagers = async (req, res) => {
 exports.findManagers = findManagers;
 
 const managerProfile = async (req, res) => {
+  console.log("hello");
   const id = req.query.id;
 
   try {

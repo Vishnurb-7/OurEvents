@@ -3,15 +3,30 @@ import {AiOutlineClose,AiOutlineMenu} from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link';
 import { useDispatch, useSelector } from 'react-redux'
-import { userAuthChange, userData2 } from '../features/userAuthSlice';
+import {refreshToken2, userAuthChange, userData2 } from '../features/userAuthSlice';
+
+import { useToast } from '@chakra-ui/toast';
+import instance from '../utils/instance';
+import { Link } from 'react-router-dom';
 
 const Navebar = () => {
 
   const dispatch = useDispatch()
-  
-  // const user = useSelector(userData)
+   // const user = useSelector(userData)
   const user2 = useSelector(userData2)
-  console.log(user2);
+  const token = useSelector(refreshToken2)
+
+
+
+  const toast = useToast({
+    position: 'top',
+    title: 'Logout failed',
+    containerStyle: {
+      width: '500px',
+      maxWidth: '100%',
+    },
+  })
+
 
   const navigate = useNavigate()
 

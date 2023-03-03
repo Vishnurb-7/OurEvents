@@ -17,11 +17,13 @@ const SingleProvider = () => {
   const toast = useToast()
   const { id } = useParams();
   const userId = useSelector(currentUserId)
+  console.log("provider datasssss",data);
 
 
   useEffect(() => {
     try {
       userAxios.get(`/managerProfile?id=${id}`).then((response) => {
+        console.log(response);
         if (response.status === 201) {
           if (response.data) {
             setData(response.data)
@@ -130,14 +132,14 @@ const SingleProvider = () => {
           <p className='text-center'>{data.companyname}</p>
           <p className='text-center'>{data != "" && data.place.join(" , ")}</p>
           <p className='text-center underline'><a href={"mailto:" + data.email}>{data.email}</a></p>
-          < p className='text-center underline'><a href={"tel:" + data.mobile}>{data.mobile}</a></p>
+          <p className='text-center underline'><a href={"tel:" + data.mobile}>{data.mobile}</a></p>
 
         </div>
 
       </div>
       <button onClick={buttonhandle} className='uppercase w-[160px] h-[60px]  text-white text-xl font-semibold shadow-2xl hover:shadow-black hover:bg-green-800 duration-300 bg-green-700 rounded-full fixed top-32 right-10'>Chat with us</button>
       <Footer />
-    </div >
+    </div>
   )
 }
 

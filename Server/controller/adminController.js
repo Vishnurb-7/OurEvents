@@ -1,5 +1,6 @@
 const { Provider } = require("../model/eventManagerModel")
 const { Admin } = require("../model/adminModel")
+const nodemailer = require('nodemailer');
 
 
 const mongoose = require("mongoose");
@@ -94,7 +95,8 @@ const approvedManagers = async (req, res) => {
 const approve = async (req, res) => {
   const { id } = req.body;
   try {
-    await Provider.findByIdAndUpdate(id, { approved: true });
+    const providerDetails = await Provider.findByIdAndUpdate(id, { approved: true });
+    await sendEmail(providerDetails.email , 'approved')
     res.status(200).json({
       message: 'success',
     })
@@ -108,7 +110,8 @@ const approve = async (req, res) => {
 const reject = async (req, res) => {
   const { id } = req.body;
   try {
-    await Provider.findByIdAndDelete(id);
+    const providerDetails = await Provider.findByIdAndDelete(id);
+    await sendEmail(providerDetails.email , 'rejected')
     res.status(200).json({
       message: 'success',
     })
@@ -173,6 +176,29 @@ const unblockUser = async (req, res) => {
     })
   }
 }
+
+const sendEmail = async (toEmail, status) => {
+  console.log(toEmail, status);
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'vishnurb4vishnu@gmail.com',
+        pass: 'wkwhsremxdzqqjsg'
+    }
+});
+
+
+  const mailOptions = {
+    from: 'vishnurb4vishnu@gmail.com',
+    to: toEmail,
+    subject: `Our Events Request ${status}`,
+    text: `Dear Vender Manager,\n\nYour request to become a vender manager has been ${status}.\n\nBest regards,\nYour Company`
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  console.log(`Email sent to ${toEmail}: ${info.messageId}`);
+  return;
+};
 
 
 

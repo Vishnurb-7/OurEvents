@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 const UserLandingPage = () => {
   const navigate = useNavigate()
   const serviceClickHandler = (service) => {
+    console.log("servicesssssss",service);
     navigate(`/providers/${service}`)
 
   }

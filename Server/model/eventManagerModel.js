@@ -1,6 +1,7 @@
 
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { string } = require("joi");
 
 // const passportLocalMongoose=require("passport-local-mongoose")
 
@@ -18,33 +19,16 @@ const providerSchema = new schema(
         approved: { type: Boolean },
         password: { type: String, trim: true,required:true },
         certificate: { type: String, required: true, trim: true },
+        coverPhoto: { type: String, trim: true },
+        profilePhoto: { type: String, trim: true },
         refreshToken: [String],
+        gallery: { type: Array, default: [], required: true, trim: true },
   },
   { timestamps: true }
 );
 
-// function validateProvider(provider) {
-//   const schema = Joi.object({
-//     name: Joi.string()
-//       .regex(/^[a-zA-Z0-9 ,.'-]+$/)
-//       .min(5)
-//       .max(50)
-//       .required(),
-//     email: Joi.string().email().min(5).max(255).required(),
-//     password: Joi.string().min(8).max(255).required(),
-//     mobile: Joi.string()
-//       .regex(/^[0-9]+$/)
-//       .min(10)
-//       .max(10)
-//       .required(),
-//   });
-//   let result = schema.validate(provider);
-//   //   if (!result["error"]) result = validatePassword(user.password);
 
-//   return result;
-// }
 
 const Provider = mongoose.model("Provider", providerSchema);
-// exports.Provider = Provider;
-// exports.validate = validateProvider;
+
 exports.Provider = Provider;

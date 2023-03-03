@@ -52,6 +52,7 @@ const login = async (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
+    console.log(req.body)
     const data = { email: email }
     try {
 
@@ -59,12 +60,12 @@ const login = async (req, res) => {
 
         const provider = await Provider.findOne({ email, verified: true, approved: true });
 
-        // console.log(provider)
+        console.log(provider)
 
         if (provider) {
             const validPassword = await bcrypt.compare(password, provider.password);
             if (validPassword) {
-                // console.log(validPassword,'validated')
+                console.log(validPassword,'validated')
                 const accessToken = generateUserAccessToken(data)
 
                 const refreshToken = await jwt.sign(data, process.env.PROVIDER_REFRESH_SECRET, { expiresIn: '15d' })
@@ -75,11 +76,12 @@ const login = async (req, res) => {
 
                 res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken, managers: email, managerId: provider._id })
             } else {
-                // console.log(validPassword,'not validated')
+                console.log(validPassword,'not validated')
                 return res.sendStatus(403)
             }
         } else { return res.sendStatus(403) }
     } catch (error) {
+        console.log(error.message)
         return res.sendStatus(403)
     }
 }

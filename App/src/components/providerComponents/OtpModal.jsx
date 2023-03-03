@@ -13,7 +13,7 @@ const renderer = ({ hours, minutes, seconds }) => (
 );
 
 
-const OtpModal = ({ visible, onClose, phone }) => {
+const OtpModal = ({ visible, onClose, phone , email }) => {
 
 
   const handleOnClose = (e) => {
@@ -43,7 +43,7 @@ const OtpModal = ({ visible, onClose, phone }) => {
       setError(false);
       console.log("it is working with otp", otp);
 
-      const data = { mobile: phone, otp: otp };
+      const data = { mobile: phone, otp: otp, email };
       try {
         const response = await axios.post("/provider/otpVerify", data);
         console.log("it is working with otp", response);
