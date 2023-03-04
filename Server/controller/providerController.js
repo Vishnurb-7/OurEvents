@@ -222,9 +222,11 @@ exports.changePassword = changePassword;
 
 
 const providerDetails = async (req, res) => {
+  console.log(req.body)
 
   try {
     const provider = await Provider.findOne({ email: req.body.email });
+    console.log(provider);
     res.status(200).json({ data: provider });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -310,16 +312,17 @@ exports.editProfileGet = editProfileGet;
 
 const editProfilePut = async (req, res) => {
   const { email, name, description, place } = req.body
+  console.log(email);
   if (req.body.coverPhotoUrl && req.body.profilePhotoUrl) {
     try {
-      await Provider.findOneAndUpdate(email, { companyname: name, description: description, place: place, coverPhoto: req.body.coverPhotoUrl, profilePhoto: req.body.profilePhotoUrl })
+      await Provider.findOneAndUpdate({email}, { companyname: name, description: description, place: place, coverPhoto: req.body.coverPhotoUrl, profilePhoto: req.body.profilePhotoUrl })
       res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: error })
     }
   } else {
     try {
-      await Provider.findOneAndUpdate(email, { companyname: name, description: description, place: place, coverPhoto: "", profilePhoto: "" })
+      await Provider.findOneAndUpdate({email}, { companyname: name, description: description, place: place, coverPhoto: "", profilePhoto: "" })
       res.status(201).json({ message: "success" })
     } catch (error) {
       res.status(500).json({ message: error })

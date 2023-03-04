@@ -13,6 +13,7 @@ import managerAxios from '../../utils/managerAxios'
 
 const EditProfile = () => {
   const managers = useSelector(managersData)
+  console.log('managers'+managers);
 
   const toast = useToast()
   // const [profile, setProfile] = useState([]);
