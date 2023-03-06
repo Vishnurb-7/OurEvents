@@ -15,7 +15,7 @@ adminRouter.post("/blockManagers",   adminControllers.blockManagers);
 adminRouter.post("/unblockManagers",   adminControllers.unblockManagers);
 adminRouter.post("/blockUser",   adminControllers.blockUser);
 adminRouter.post("/unblockUser",   adminControllers.unblockUser);
-adminRouter.post("/token",   adAuthController.token);
+adminRouter.get("/dashboard", adminControllers.dashboard);
 adminRouter.post("/adminLogout",   adAuthController.adminLogout);
 adminRouter.post("/adminLogin",  adAuthController.adminLogin);
 

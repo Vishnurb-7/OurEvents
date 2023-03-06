@@ -7,7 +7,7 @@ const { response } = require("express");
 const crypto = require("crypto");
 const Joi = require("joi");
 const { Provider } = require("../model/eventManagerModel");
-
+const { Estimate } = require("../model/estimateModel");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const serviceSid = process.env.TWILIO_AUTH_SERVICE_SID;
@@ -278,3 +278,24 @@ const managerProfile = async (req, res) => {
   }
 }
 exports.managerProfile = managerProfile;
+
+
+const estimateData = async (req, res) => {
+  const { userId, managerId } = req.body;
+  try {
+    const data = await Estimate.find({ userId: mongoose.Types.ObjectId(userId), managerId: mongoose.Types.ObjectId(managerId) })
+
+    if (data != null) {
+      res.status(201).json(data)
+    } else {
+      res.json({
+        message: "error"
+      })
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: error })
+  }
+}
+exports.estimateData = estimateData;
+

@@ -59,11 +59,10 @@ export const Appl = () => {
         <Route path="signup" element={user != "" ? <Navigate to="/home" /> : <Signup />} />
         <Route path="forgotPassword" element={user != "" ? <Navigate to="/home" /> : <Forgotpassword />} />
         <Route path="changePassword/:userId/:token" element={user != "" ? <Navigate to="/home" /> : <ChangePassword />} />
+          <Route path="provider/:id" element={<SingleProvider />} />
+          <Route path="providers/:service" element={<Providers />} />
         <Route element={<UserRequireAuth />}>
           <Route path='home' element={<UserLandingPage />} />
-          <Route path="providers/:service" element={<Providers />} />
-          <Route path="provider/:id" element={<SingleProvider />} />
-         
         </Route>
 
         <Route path="providerLogin" element={manager != "" ? <Navigate to="/providerProfile" /> : <ProviderLogin />} />
