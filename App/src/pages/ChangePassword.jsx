@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import ForgotOTPModal from '../components/ForgotOTPModal';
+import {  useNavigate, useParams } from 'react-router-dom';
 import axios from '../../src/utils/axios';
 
 const ChangePassword = () => {

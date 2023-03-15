@@ -4,7 +4,7 @@ import { currentToken } from "./authSlice";
 
 const AdminRequireAuth = () => {
     const admin = useSelector(currentToken)
-    // console.log(user);
+ 
   const location = useLocation();
 
   return admin ? (

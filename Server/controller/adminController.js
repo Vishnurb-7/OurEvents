@@ -1,13 +1,11 @@
 const { Provider } = require("../model/eventManagerModel")
 const { Admin } = require("../model/adminModel")
 const nodemailer = require('nodemailer');
-
-
-const mongoose = require("mongoose");
 const { response } = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { User } = require("../model/userModel");
+const { Estimate } = require("../model/estimateModel");
 
 
 const addAdmin = async (req, res) => {
@@ -200,6 +198,16 @@ const sendEmail = async (toEmail, status) => {
   return;
 };
 
+const transactions = async (req, res) => {
+  try {
+    const result = await Estimate.find({ paid: true })
+    res.status(201).json(result);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json(error);
+  }
+}
+
 
 
 const dashboard = async (req, res) => {
@@ -245,4 +253,5 @@ exports.blockManagers = blockManagers;
 exports.unblockManagers = unblockManagers;
 exports.blockUser = blockUser;
 exports.unblockUser = unblockUser;
+exports.transactions = transactions
 exports.dashboard = dashboard

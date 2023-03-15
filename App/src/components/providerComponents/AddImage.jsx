@@ -4,7 +4,6 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { BsImages } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
 import { useSelector } from 'react-redux';
-import axios from '../../utils/axios'
 import { managersData } from '../../features/managersAuthSlice';
 import BeatLoader from "react-spinners/BeatLoader";
 import { Button } from '@chakra-ui/react';
@@ -22,9 +21,17 @@ const AddImage = ({ visible, onClose }) => {
   const managers = useSelector(managersData)
   const toast = useToast()
 
+  let Allowed_File_Type = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ]
+
   const imageHandler = () => {
     setError(false)
-    if (image != "") {
+  if (Allowed_File_Type.includes(image.type)) {
       setLoad(true)
       const data = new FormData();
       data.append("file", image);

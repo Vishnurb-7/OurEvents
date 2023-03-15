@@ -1,6 +1,8 @@
 import axios from "axios";
 import { store } from "../app/store";
-import instance from "./instance";
+import { authChange } from "../features/authSlice";
+
+// import { authChange } from "../features/authSlice";
 
 
 
@@ -22,7 +24,7 @@ adminAxios.interceptors.response.use(
   },
   async (error) => {
     if (error.response.status === 403 || error.response.status === 401) {
-
+      
       store.dispatch(authChange({ adminName: "", accessToken: "", refreshToken: "" }))
 
 

@@ -4,7 +4,7 @@ import { FaTimes } from "react-icons/fa";
 
 const AddCoverPhoto = ({ photo, change, cover, setCover }) => {
 
-  // const [image, SetImage] = useState("");
+
   const imageInput = useRef(null);
   const resetShare = () => {
     change(null);

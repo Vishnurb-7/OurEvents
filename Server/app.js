@@ -1,8 +1,6 @@
 
 
-
-
-const express = require("express");
+ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
@@ -13,6 +11,9 @@ require("dotenv/config")
 const userRoutes = require("./router/userRouter");
 const providerRoutes = require("./router/providerRouter");
 const adminRoutes = require("./router/adminRouter");
+const chatRouter = require("./router/chatRouter");
+const messageRouter = require("./router/messageRouter");
+const paymentRouter = require("./router/paymentRouter")
 
 // ****************************************************
 const app = express();
@@ -49,12 +50,12 @@ app.use((req, res, next) => {
 app.use("/", userRoutes);
 app.use("/provider", providerRoutes)
 app.use("/admin", adminRoutes);
+app.use("/chat",chatRouter)
+app.use("/message", messageRouter)
+app.use('/payment', paymentRouter)
 
 
 
-// app.get("*", (req, res, next) => {
-//     res.send("ALL DONE 😍👍");
-//   });
 
 
 

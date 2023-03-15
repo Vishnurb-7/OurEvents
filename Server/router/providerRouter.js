@@ -25,6 +25,11 @@ providerRouter.post("/removeImage", providerControllers.removeImage);
 providerRouter.route("/editProfile")
     .get( providerControllers.editProfileGet)
     .put( providerControllers.editProfilePut);
+providerRouter.get("/chatUsers/:id",  providerControllers.chatUsers);
+providerRouter.post("/addEstimate",  providerControllers.addEstimate);
+providerRouter.get("/estimateDetails/:userId/:managerId",  providerControllers.estimateDetails);
+providerRouter.get("/orders/:Id",  providerControllers.orders);
+providerRouter.post("/orderDescription", providerControllers.orderDescription);
 
 
 module.exports = providerRouter;

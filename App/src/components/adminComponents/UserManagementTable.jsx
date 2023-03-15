@@ -98,7 +98,7 @@ const UserManagementTable = ({ data, change, load }) => {
 		},
 		{
 			name: 'Phone',
-			selector: row => row.mobile,
+			selector: row => row.phone,
 		},
 		{
 			name: '',

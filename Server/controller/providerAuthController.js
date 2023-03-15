@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-
 const bcrypt = require("bcrypt");
 const { set } = require('mongoose');
 const { Provider } = require('../model/eventManagerModel');

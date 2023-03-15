@@ -1,7 +1,7 @@
 import axios from "axios";
 import { store } from "../app/store";
-import { managersAuthChange, managersData, managersRefreshToken } from "../features/managersAuthSlice";
-import instance from "./instance";
+import { managersAuthChange,  } from "../features/managersAuthSlice";
+
 
 
 const managerAxios = axios.create({

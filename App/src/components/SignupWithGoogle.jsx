@@ -1,12 +1,12 @@
 import jwtDecode from 'jwt-decode';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
 
 
 
 const SignupWithGoogle = ({onError}) => {
-    // const [user, setUser] = useState("");
+   
 
     const navigate =  useNavigate()
 

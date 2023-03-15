@@ -1,9 +1,7 @@
 const { User } = require("../model/userModel")
-
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { response } = require("express");
-
 const crypto = require("crypto");
 const Joi = require("joi");
 const { Provider } = require("../model/eventManagerModel");
@@ -279,6 +277,19 @@ const managerProfile = async (req, res) => {
 }
 exports.managerProfile = managerProfile;
 
+const chatManagers = async (req, res) => {
+  try {
+    const data = await Provider.findById({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    });
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(404);
+  }
+};
+exports.chatManagers = chatManagers;
+
+
 
 const estimateData = async (req, res) => {
   const { userId, managerId } = req.body;
@@ -298,4 +309,16 @@ const estimateData = async (req, res) => {
   }
 }
 exports.estimateData = estimateData;
+
+
+const orders = async (req, res) => {
+  const { Id } = req.params;
+  try {
+    const result = await Estimate.find({ userId: Id })
+    res.status(201).json(result)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+exports.orders = orders;
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../app/store";
-import { refreshToken2, userAuthChange, userData2 } from "../features/userAuthSlice";
+import {  userAuthChange, } from "../features/userAuthSlice";
 
 
 const userAxios = axios.create({

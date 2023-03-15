@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { managersData } from '../../features/managersAuthSlice';
-import axios from '../../utils/axios'
 import { useToast } from '@chakra-ui/toast';
 import managerAxios from '../../utils/managerAxios';
 

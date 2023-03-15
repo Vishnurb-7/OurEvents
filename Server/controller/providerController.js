@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const Joi = require("joi");
 // const ObjectId = require('mongodb').ObjectId;
 const { response } = require("express");
-
+const { Estimate } = require("../model/estimateModel");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const serviceSid = process.env.TWILIO_AUTH_SERVICE_SID;
@@ -330,3 +330,65 @@ const editProfilePut = async (req, res) => {
   }
 }
 exports.editProfilePut = editProfilePut
+
+
+const chatUsers = async (req, res) => {
+  try {
+    const data = await User.findById({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    });
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(404);
+  }
+};
+exports.chatUsers = chatUsers;
+
+const addEstimate = async (req, res) => {
+  const { userId, managerId, estimate } = req.body;
+  const estimates = new Estimate({
+    userId, managerId, estimate
+  })
+  try {
+    await estimates.save()
+    res.status(201).json({ message: "success" })
+
+  } catch (error) {
+    res.status(500).json({ message: "success" })
+  }
+}
+exports.addEstimate = addEstimate;
+const estimateDetails = async (req, res) => {
+  const { userId, managerId } = req.params;
+  try {
+    const result = await Estimate.find({ userId, managerId })
+    res.status(201).json(result)
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
+exports.estimateDetails = estimateDetails;
+
+const orders = async (req, res) => {
+  const { Id } = req.params;
+  try {
+    const result = await Estimate.find({ managerId: Id })
+    res.status(201).json(result)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+exports.orders = orders
+
+const orderDescription = async (req, res) => {
+  const { description, id } = req.body;
+  try {
+    const result = await Estimate.findByIdAndUpdate(id, { description: description })
+    result.description = description
+    res.status(201).json(result)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+exports.orderDescription = orderDescription

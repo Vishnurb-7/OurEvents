@@ -16,18 +16,23 @@ import AdminHome from './pages/adminPages/AdminHome';
 import AdminLogin from './pages/adminPages/AdminLogin';
 import EventManagers from './pages/adminPages/EventManagers';
 import Requests from './pages/adminPages/Requests';
-
+import TransactionHistory from './pages/adminPages/TransactionHistory';
 import UserManagement from './pages/adminPages/UserManagement';
 import ChangePassword from './pages/ChangePassword';
 import Chat from './pages/chat/Chat';
 
 import Forgotpassword from './pages/Forgotpassword';
 import Login from './pages/Login';
+import MyOrders from './pages/MyOrders';
 import PageNotFound from './pages/PageNotFound';
+import Completion from './pages/payment/Completion';
+import Payment from './pages/payment/Payment';
 import Profile from './pages/Profile';
+import ManagerChat from './pages/providerPages/chat/ManagerChat';
 import EditProfile from './pages/providerPages/EditProfile';
 import ManagerChangePassword from './pages/providerPages/ManagerChangePassword'
 import ManagersForgotPassword from './pages/providerPages/ManagersForgotPassword';
+import Orders from './pages/providerPages/Orders';
 import ProviderLogin from './pages/providerPages/ProviderLogin';
 import ProviderProfile from './pages/providerPages/ProviderProfile';
 import ProviderSignup from './pages/providerPages/ProviderSignup';
@@ -63,6 +68,10 @@ export const Appl = () => {
           <Route path="providers/:service" element={<Providers />} />
         <Route element={<UserRequireAuth />}>
           <Route path='home' element={<UserLandingPage />} />
+          <Route path='chat' element= {<Chat/>}/>
+          <Route path='completion' element={<Completion/>}/>
+          <Route path='payment' element={<Payment/>}/>
+          <Route path='myOrders' element={<MyOrders/>}/>
         </Route>
 
         <Route path="providerLogin" element={manager != "" ? <Navigate to="/providerProfile" /> : <ProviderLogin />} />
@@ -73,7 +82,8 @@ export const Appl = () => {
           {/* <Route path='managersLanding' element={<ManagersLanding />} /> */}
           <Route path="providerProfile" element={<ProviderProfile />} />
           <Route path="editProfile" element={<EditProfile />} />
-       
+          <Route path='managersChat' element={<ManagerChat/>}/>
+          <Route path='orders' element={<Orders/>}/>
         </Route>
 
 
@@ -83,7 +93,7 @@ export const Appl = () => {
           <Route path="userManagement" element={<UserManagement />} />
           <Route path="requests" element={<Requests />} />
           <Route path="eventManagers" element={<EventManagers />} />
-      
+          <Route path='transactions' element={<TransactionHistory/>}/>
         </Route>
 
       </Route>

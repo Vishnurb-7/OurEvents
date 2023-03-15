@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from "react-icons/fi";
-// import axios from '../../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { authChange } from '../../features/authSlice';
 import instance from '../../utils/instance';

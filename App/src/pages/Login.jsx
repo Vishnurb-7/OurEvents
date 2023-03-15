@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { FcGoogle} from 'react-icons/fc'
 import { useNavigate } from 'react-router-dom'
 import LoginWithGoogle from '../components/LoginWithGoogle'
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from '../utils/axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { userAuthChange } from '../features/userAuthSlice';
 import { Link } from 'react-router-dom';
 
@@ -110,9 +109,10 @@ const Login = () => {
 
 
       if (response.status === 201) {
-        const { accessToken, refreshToken, user } = response.data
+        const { accessToken, refreshToken, user ,id} = response.data
+        console.log('userdispatching',user);
 
-        const disp = dispatch(userAuthChange({ accessToken, refreshToken, user }))
+        const disp = dispatch(userAuthChange({ accessToken, refreshToken, user ,id}))
         if (disp) {
 
           navigate('/')

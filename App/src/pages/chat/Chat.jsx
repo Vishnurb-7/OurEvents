@@ -1,37 +1,127 @@
-import React from 'react'
-import { GrSend } from 'react-icons/gr'
-import Footer from '../../components/Footer'
-import Navebar from '../../components/NavBar'
-import ReceiveMessage from '../../components/ReceiveMessage'
-import SendMessage from '../../components/SendMessage '
+import React, { useRef, useState } from "react";
+import "./Chat.css";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { currentUserId, userData2 } from "../../features/userAuthSlice";
+import Conversation from "../../components/Coversation/Coversation";
+import ChatBox from "../../components/ChatBox/ChatBox";
+import { io } from "socket.io-client";
+import Navebar from "../../components/NavBar";
+import ShowEstimateModal from "../../components/ChatBox/ShowEstimateModal";
+import userAxios from "../../utils/userAxios";
 
 const Chat = () => {
-  return (
-      <div>
-          <Navebar />
-          <div className='p-2'>
+  
+    const socket = useRef();
+    // const { user } = useSelector((state) => state.authReducer.authData);
+    const userId = useSelector(currentUserId)
+    console.log(userId);
 
-              <div className='relative mt-10 mb-10 rounded-3xl bg-white md:max-w-[980px] lg:max-w-[1100px] h-[600px] lg:h-[800px] mx-auto shadow-2xl flex flex-col'>
-                  <div className='flex flex-col p-5 md:max-w-[980px] lg:max-w-[1100px] h-[500px] lg:h-[700px] overflow-y-scroll no-scrollbar'>
-                      <SendMessage />
-                      <ReceiveMessage />
-                      <SendMessage /> 
-                      <ReceiveMessage />
-                      <ReceiveMessage />
-                      </div>
-              <div className='bottom-0 absolute w-full h-24 bg-white pt-6 pl-6 flex flex-row shadow-2xl rounded-b-3xl'>
-                          <input type="text" className='border-2 border-gray-700 w-[90%] h-14 rounded-full shadow-2xl p-5 font-medium text-lg' />
-                          <button className='w-[60px] h-[60px] bg-[#E1EDF8] border-2 border-black rounded-full ml-3 flex items-center p-4'><GrSend className='text-4xl'/></button>
-                      </div>
+    const [chats, setChats] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const [currentChat, setCurrentChat] = useState(null);
+    const [sendMessage, setSendMessage] = useState(null);
+    const [receivedMessage, setReceivedMessage] = useState(null);
+    const [showEstimate, setShowEstimate] = useState(false);
+    const [receiver, setReceiver] = useState("");
 
-              </div>
-          </div>
+    const showEstimateClose = () => setShowEstimate(false);
+    // Get the chat in chat section
+    useEffect(() => {
+        const getChats = async () => {
+            try {
+                const { data } = await userAxios.get(`/chat/${userId}`);
+                console.log(userId);
+                setChats(data);
+            } catch (error) {
+                alert("server error")
+            }
+        };
+        getChats();
+    }, [userId]);
+
+    // Connect to Socket.io
+    useEffect(() => {
+        socket.current = io("ws://localhost:8080");
+        socket.current.emit("new-user-add", userId);
+        socket.current.on("get-users", (users) => {
+            setOnlineUsers(users);
+        });
+    }, [userId]);
+
+    // Send Message to socket server
+    useEffect(() => {
+        if (sendMessage !== null) {
+            socket.current.emit("send-message", sendMessage);
+        }
+    }, [sendMessage]);
 
 
-        <Footer/>  
+    // Get the message from socket server
+    useEffect(() => {
+        socket.current.on("recieve-message", (data) => {
+            setReceivedMessage(data);
+        }
 
-    </div>
-  )
-}
+        );
+    }, []);
 
-export default Chat
+
+    const checkOnlineStatus = (chat) => {
+        const chatMember = chat.members.find((member) => member !== userId);
+        const online = onlineUsers.find((user) => user.userId === chatMember);
+        return online ? true : false;
+    };
+
+    return (
+        <>
+            <Navebar />
+            <div className="Chat p-5">
+                {/* Left Side */}
+                <div className="Left-side-chat">
+                    {/* <LogoSearch /> */}
+                    <div className="Chat-container bg-white no-scrollbar ">
+                        <h2 className="font-extrabold text-4xl text-center font-Volkhov">Chats</h2>
+                        <div className="Chat-list">
+                            {chats.map((chat, i) => (
+                                <div
+                                    onClick={() => {
+                                        setCurrentChat(chat);
+                                    }}
+                                >
+                                    <Conversation
+                                        key={i}
+                                        data={chat}
+                                        currentUser={userId}
+                                        online={checkOnlineStatus(chat)}
+                                        type="user"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Side */}
+
+                <div className="Right-side-chat ">
+                    {/* <div style={{ width: "20rem", alignSelf: "flex-end" }}>
+                    <NavIcons />
+                </div> */}
+                    <ChatBox
+                        chat={currentChat}
+                        currentUser={userId}
+                        setSendMessage={setSendMessage}
+                        receivedMessage={receivedMessage}
+                        type="user"
+                        showEstimate={setShowEstimate}
+                        setReceiver={setReceiver}
+                    />
+                </div>
+            </div>
+            <ShowEstimateModal onClose={showEstimateClose} visible={showEstimate} userId={userId} managerId={receiver} />
+        </>
+    );
+};
+
+export default Chat;

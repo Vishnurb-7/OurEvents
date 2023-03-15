@@ -282,6 +282,16 @@ const ProviderSignup = () => {
       return true;
     }
   };
+  
+
+  let Allowed_File_Type = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ]
+
 
   const signupHandle = () => {
 
@@ -457,7 +467,7 @@ const ProviderSignup = () => {
         <input
           type="text"
           name='phone'
-          value={providerData.Phone}
+          value={providerData.phone}
           onChange={valueSetting}
           onBlur={PhoneCheck}
           placeholder='Phone'
@@ -503,6 +513,7 @@ const ProviderSignup = () => {
           type="file"
           name='certificate'
           value={providerData.certificate}
+          accept=".png,.jpeg,.webp,.jpg"
           onChange={(e) => setImage(e.target.files[0])}
           className='w-[90%] h-20 mt-10 text-3xl p-4 border-2 border-black rounded-3xl text-center'
         />

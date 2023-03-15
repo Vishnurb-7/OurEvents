@@ -4,9 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Navebar from '../components/NavBar'
 import ProvidersCard from '../components/ProvidersCard'
-import axios from '../utils/axios'
 import userAxios from '../utils/userAxios'
-// import { useGeolocated } from "react-geolocated";
+
 
 const Providers = () => {
   const navigate = useNavigate()
