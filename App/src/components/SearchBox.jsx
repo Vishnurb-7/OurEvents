@@ -57,36 +57,11 @@ const SearchBox = () => {
 
   return (
     <div className="relative ">
-      {/* <input
-        className="w-full h-15 px-9 py-4 bg-white border-2 border-white-200 rounded-2xl shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white-500"
-        type="search"
-        name="search"
-        placeholder="Search"
-      /> */}
-      {/* <button
-        type="submit"
-        className="absolute  rounded-bl-3xl top-1/2 transform -translate-y-1/2 px-6 py-4 text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-md focus:outline-none hover:from-blue-600 hover:to-slate-200 transition duration-200 ease-in-out"
-      >
-        <svg
-          className="h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M15 15l5-5m0 0l-5-5m5 5h-12"
-          />
-        </svg>
-      </button> */}
-      <div className="relative">
+        <div className="relative">
       <input
   type="text"
   placeholder="Search for services"
-  className="w-full py-2 pl-10 pr-4 text-gray-700 bg-gray-200 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
+  className="w-56 h-16 py-2 pl-10 pr-4 text-gray-700 bg-gray-200 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
   value={query}
   onChange={handleChange}
   onKeyDown={handleKeyDown}
@@ -116,15 +91,7 @@ const SearchBox = () => {
 
 
 </div>
-
-     
-
-      {/* <div className='dataResult cursor-pointer'>
-        {services.map((value,key)=>{
-          return <div onClick={()=>navigate(`providers/${value}`)}> {value}</div>
-        })}
-      </div> */}
-    </div>
+       </div>
   );
 };
 
