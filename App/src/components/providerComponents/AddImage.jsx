@@ -26,7 +26,9 @@ const AddImage = ({ visible, onClose }) => {
     "image/jpg",
     "image/png",
     "image/webp",
-    "image/gif"
+    "image/gif",
+    "video/mp4"
+
   ]
 
   const imageHandler = () => {

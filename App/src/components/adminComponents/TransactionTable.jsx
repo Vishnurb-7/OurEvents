@@ -170,8 +170,6 @@ const TransactionTable = ({ data }) => {
         },
     ];
 
-
-
     const [filterText, setFilterText] = useState('');
     const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
     const filteredItems = data.filter(

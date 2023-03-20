@@ -11,6 +11,7 @@ const userSchema = new schema(
         refreshToken: [String],
         verified: { type: Boolean },
         approved:{type:Boolean},
+        
   },
   { timestamps: true }
 );

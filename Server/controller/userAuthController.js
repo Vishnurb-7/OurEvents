@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { User } = require("../model/userModel")
 const bcrypt = require("bcrypt");
-const { set } = require('mongoose');
+
 
 const userToken = async (req, res) => {
     const email = req.body.email;
@@ -47,28 +47,33 @@ const logout = async (req, res) => {
 }
 
 const login = async (req, res) => {
-
-
+    console.log('req.body',req.body);
     const email = req.body.email;
     const password = req.body.password;
     const data = { email: email }
-    const user = await User.findOne({ email, approved: true });
-
-
+    const user = await User.findOne({ email});
     if (user) {
         const validPassword = await bcrypt.compare(password, user.password);
+        console.log('validPass : ',validPassword);
         if (validPassword) {
-            const accessToken = generateUserAccessToken(data)
-            const refreshToken = await jwt.sign(data, process.env.USER_REFRESH_SECRET, { expiresIn: '15d' })
-
-
-            await User.updateOne({ email }, { $push: { refreshToken: refreshToken } }, { upsert: true })
-
-            res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken, user: email, id: user._id })
+            console.log('aprvoed',user.approved);
+            if(user.approved){
+                const accessToken = generateUserAccessToken(data)
+                const refreshToken = await jwt.sign(data, process.env.USER_REFRESH_SECRET, { expiresIn: '15d' })
+    
+    
+                await User.updateOne({ email }, { $push: { refreshToken: refreshToken } }, { upsert: true })
+                console.log(accessToken,refreshToken,email,user._id);
+                return res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken, user: email, id: user._id })
+            } else {
+                console.log('errro sending 400');
+                return res.status(400).json({message:'user blocked'})
+            }
         } else {
-            return res.status(403).json({ message: 'error' })
+            return res.status(400).json({ message: 'invalid email or password' })
         }
-    } else { return res.status(403).json({ message: 'error' }) }
+    } else { 
+        return res.status(400).json({ message: 'invalid email or password' }) }
 }
 
 const googleLogin = async (req, res) => {
