@@ -12,11 +12,11 @@ const Providers = () => {
   const { service } = useParams();
   const [data, setData] = useState("");
   const [location, setLocation] = useState("Kottayam");
-  const [done, setDone] = useState(false);
+  const [ setDone] = useState(false);
   const toast = useToast()
-  console.log('sercice',service);
 
-  const [currLocationJs, setCurrLocationJs] = useState({});
+
+  const [, setCurrLocationJs] = useState({});
 
 
 
@@ -27,7 +27,7 @@ const Providers = () => {
 
   useEffect(() => {
     userAxios.get(`/findManagers?service=${service}&place=${location}`).then((response) => {
-      console.log(response);
+   
       if (response.status === 201) {
         if (response.data.length == 0) {
 

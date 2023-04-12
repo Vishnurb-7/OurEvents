@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt");
-const { set } = require('mongoose');
+
 const { Provider } = require('../model/eventManagerModel');
 
 
@@ -8,7 +8,7 @@ const managersToken = async (req, res) => {
     const email = req.body.email;
     const provider = await Provider.findOne({ email })
 
-    let refreshTokens = user.refreshToken;
+
 
 
     const refreshToken = req.body.token
@@ -47,24 +47,20 @@ const logout = async (req, res) => {
 }
 
 const login = async (req, res) => {
-
-
     const email = req.body.email;
     const password = req.body.password;
-    console.log(req.body)
+
     const data = { email: email }
     try {
 
-        // console.log(req.body);
-
         const provider = await Provider.findOne({ email, verified: true, approved: true });
 
-        console.log(provider)
+  
 
         if (provider) {
             const validPassword = await bcrypt.compare(password, provider.password);
             if (validPassword) {
-                console.log(validPassword,'validated')
+
                 const accessToken = generateUserAccessToken(data)
 
                 const refreshToken = await jwt.sign(data, process.env.PROVIDER_REFRESH_SECRET, { expiresIn: '15d' })
@@ -75,12 +71,12 @@ const login = async (req, res) => {
 
                 res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken, managers: email, managerId: provider._id })
             } else {
-                console.log(validPassword,'not validated')
+              
                 return res.sendStatus(403)
             }
         } else { return res.sendStatus(403) }
     } catch (error) {
-        console.log(error.message)
+
         return res.sendStatus(403)
     }
 }

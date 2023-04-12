@@ -24,17 +24,17 @@ const Requests = () => {
       axios.get("/admin/managerData",
         { headers: {'Authorization' :`Bearer ${token}` } },
       ).then((response) => {
-        console.log(response.data);
+      
         if (response.status === 200) {
 
           setdata(response.data.data)
-          console.log(data)
+       
         } else {
           alert("SOMETHING WEONG!!!!!!!!!!!!!")
         }
       })
     } catch (error) {
-      console.log("&&&&&&&&&&&&&&&"+error);
+
       alert("SOMETHING WEONG!!!!!!!!!!!!!")
     }
 

@@ -33,7 +33,7 @@ const AddImage = ({ visible, onClose }) => {
 
   const imageHandler = () => {
     setError(false)
-  if (Allowed_File_Type.includes(image.type)) {
+  if (Allowed_File_Type.includes(image.type||video.type)) {
       setLoad(true)
       const data = new FormData();
       data.append("file", image);
@@ -45,17 +45,18 @@ const AddImage = ({ visible, onClose }) => {
           body: data,
         }).then((res) => res.json())
           .then(async (data) => {
-
+         
             const imageUrl = data.url;
+            const videoUrl = data.url
 
-            const response = await managerAxios.post("/provider/addimage", { imageUrl, managers })
+            const response = await managerAxios.post("/provider/addImageOrVideo", { imageUrl, managers,videoUrl })
             if (response.status === 201) {
               toast({
                 position: "top",
                 variant: 'left-accent',
                 status: 'success',
                 isClosable: true,
-                title: 'Image added successfully',
+                title: 'Media added successfully',
 
               })
               onClose()
@@ -69,7 +70,7 @@ const AddImage = ({ visible, onClose }) => {
                 variant: 'left-accent',
                 status: 'error',
                 isClosable: true,
-                title: 'Image adding failed',
+                title: 'Media adding failed',
 
               })
             }
@@ -82,7 +83,7 @@ const AddImage = ({ visible, onClose }) => {
           variant: 'left-accent',
           status: 'error',
           isClosable: true,
-          title: 'Image adding failed',
+          title: 'Media adding failed',
 
         })
       }
@@ -136,13 +137,13 @@ const AddImage = ({ visible, onClose }) => {
           <input
             onChange={(e) => {
               SetImage(e.target.files[0]);
-              // console.log(image);
+
             }}
             type="file"
             id="file"
             ref={imageInput}
             style={{ display: "none" }}
-            accept="image/x-png,image/gif,image/jpeg"
+            accept="image/x-png,image/gif,image/jpeg,video/mp4"
 
           />
 

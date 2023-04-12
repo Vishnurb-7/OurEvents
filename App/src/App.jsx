@@ -27,7 +27,6 @@ import MyOrders from './pages/MyOrders';
 import PageNotFound from './pages/PageNotFound';
 import Completion from './pages/payment/Completion';
 import Payment from './pages/payment/Payment';
-import Profile from './pages/Profile';
 import ManagerChat from './pages/providerPages/chat/ManagerChat';
 import EditProfile from './pages/providerPages/EditProfile';
 import ManagerChangePassword from './pages/providerPages/ManagerChangePassword'

@@ -65,6 +65,8 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage, type, add
         if (chat !== null) getUserData();
     }, [chat, currentUser]);
 
+
+
     // fetch messages
     useEffect(() => {
         const fetchMessages = async () => {

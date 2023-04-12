@@ -31,7 +31,7 @@ const ProviderProfile = () => {
     try {
       managerAxios.post("/provider/providerDetails", { email: managers }).then((response) => {
         if (response.status === 200) {
-          console.log(response.data.data)
+        
           setData(response.data.data)
         } else {
           alert("server error")

@@ -12,6 +12,7 @@ exports.createChat = async (req, res) => {
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json(error);
+            
         }
     } else {
         res.status(200).json(chats);
@@ -25,7 +26,7 @@ exports.userChats = async (req, res) => {
         const chat = await Chat.find({
             members: { $in: [req.params.userId] },
         });
-        console.log(chat);
+   
         res.status(200).json(chat);
     } catch (error) {
         res.status(500).json(error);

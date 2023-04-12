@@ -2,18 +2,18 @@ import { Button, useToast } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { MdBackspace } from 'react-icons/md'
 import { useSelector } from 'react-redux'
-import Footer from '../../components/Footer'
+
 import AddCoverPhoto from '../../components/providerComponents/AddCoverPhoto'
 import AddDP from '../../components/providerComponents/AddDP'
 import Navebar from '../../components/providerComponents/Navebar'
-import axios from '../../utils/axios'
+
 import { managersData } from '../../features/managersAuthSlice'
 import BeatLoader from "react-spinners/BeatLoader";
 import managerAxios from '../../utils/managerAxios'
 
 const EditProfile = () => {
   const managers = useSelector(managersData)
-  console.log('managers'+managers);
+ 
 
   const toast = useToast()
   // const [profile, setProfile] = useState([]);
@@ -310,7 +310,7 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
-      {/* <Footer/> */}
+
     </div>
   )
 }

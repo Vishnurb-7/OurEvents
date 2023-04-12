@@ -37,23 +37,22 @@ const OtpModal = ({ visible, onClose, phone , email }) => {
   };
   const otpSentButtonHandler = async() => {
     if (otp.length < 6) {
-      console.log("invalid otp");
+
       setError(true);
     } else {
       setError(false);
-      console.log("it is working with otp", otp);
-
+      
       const data = { mobile: phone, otp: otp, email };
       try {
         const response = await axios.post("/provider/otpVerify", data);
-        console.log("it is working with otp", response);
+      
         if (response.status === 201) {
           navigate("/providerlogin")
         } else {
           setError(true);
         }
       } catch (error) {
-        console.log(error);
+        
       }
 
 
@@ -64,14 +63,14 @@ const OtpModal = ({ visible, onClose, phone , email }) => {
     const data = { mobile: phone };
     try {
       const response = await axios.post("/provider/resendOtp", data);
-      console.log("it is working with otp", response);
+
       if (response.status === 201) {
         setresend(false)
       } else {
         setError(true);
       }
     } catch (error) {
-      console.log(error);
+    
     }
   };
 

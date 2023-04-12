@@ -6,7 +6,7 @@ import axios from '../utils/axios';
 import Countdown, { zeroPad } from 'react-countdown';
 
 
-const renderer = ({ hours, minutes, seconds }) => (
+const renderer = ({ minutes, seconds }) => (
   <span className='text-xl text-right'>
     {zeroPad(minutes)}:{zeroPad(seconds)}
   </span>
@@ -53,7 +53,7 @@ const ForgotOTPModal = ({ visible, onClose, phone }) => {
           setError(true);
         }
       } catch (error) {
-        console.log(error.message);
+      
         alert("server failed")
       }
 

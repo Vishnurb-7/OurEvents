@@ -6,7 +6,7 @@ import GalaryCard from '../components/GalaryCard'
 import { useNavigate,useParams } from 'react-router-dom'
 import { useToast } from '@chakra-ui/toast'
 import { useSelector } from 'react-redux'
-import { userData2, currentUserId } from '../features/userAuthSlice'
+import { currentUserId } from '../features/userAuthSlice'
 import userAxios from '../utils/userAxios'
 
 

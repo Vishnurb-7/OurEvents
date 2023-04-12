@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 const UserLandingPage = () => {
   const navigate = useNavigate()
   const serviceClickHandler = (service) => {
-    console.log("servicesssssss",service);
+    
     navigate(`/providers/${service}`)
 
   }

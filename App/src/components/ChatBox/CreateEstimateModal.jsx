@@ -4,9 +4,13 @@ import { useToast } from '@chakra-ui/toast';
 import { Table,  TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 import { MdBackspace } from 'react-icons/md';
 import managerAxios from '../../utils/managerAxios';
+import { useSelector } from 'react-redux';
+import { managersId } from '../../features/managersAuthSlice';
 
-const CreateEstimateModal = ({ visible, onClose, userId, managerId }) => {
-    // const [data, setData] = useState("");
+
+const CreateEstimateModal = ({ visible, onClose,  managerId }) => {
+
+    const userId = useSelector(managersId)
     const [service, setService] = useState("");
     const [error, setError] = useState("");
     const [price, setPrice] = useState("");
@@ -25,6 +29,8 @@ const CreateEstimateModal = ({ visible, onClose, userId, managerId }) => {
         e.target.value == "#" ? setError("Select one") : setService(e.target.value)
 
     }
+
+
 
     useEffect(() => {
         try {
@@ -59,7 +65,7 @@ const CreateEstimateModal = ({ visible, onClose, userId, managerId }) => {
     }
 
     const saveHandler = async () => {
-        console.log(estimate);
+     
         if (estimate.length > 0) {
             const response = await managerAxios.post('/provider/addEstimate', { userId, managerId, estimate })
             if (response.status === 201) {

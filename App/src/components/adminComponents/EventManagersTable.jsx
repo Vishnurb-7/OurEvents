@@ -55,13 +55,13 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
 export const EventManagersTable = ({ data, change, load }) => {
 
 	const blockHandler = (id) => {
-		console.log('clicked');
+	
 		try {
 			const value = { id: id };
 
 			axios.post("/admin/blockManagers", value).then((response) => {
 
-				console.log('wrokingfine'+ response);
+			
 
 				if (response.status === 200) {
 
@@ -78,7 +78,7 @@ export const EventManagersTable = ({ data, change, load }) => {
 	}
 
 	const unblockHandler = (id) => {
-		console.log('clicked unblockHandler');
+		
 		try {
 			const value = { id: id };
 

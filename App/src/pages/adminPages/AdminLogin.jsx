@@ -37,7 +37,7 @@ const AdminLogin = () => {
     const data = { name: admin.name, password: admin.password, };
     try {
       const response = await instance.post("/admin/adminLogin", data);
-      console.log("it is working ", response);
+   
 
       const { accessToken, refreshToken, adminName } = response.data
 
@@ -48,7 +48,7 @@ const AdminLogin = () => {
         setError(true);
       }
     } catch (error) {
-      console.log(error);
+    
       setError(true);
     }
 

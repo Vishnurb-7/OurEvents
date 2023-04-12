@@ -62,7 +62,7 @@ const Login = () => {
           message: "is this really your email ?",
         },
       }));
-      // console.log("email false");
+     
 
       return false;
     } else {
@@ -86,7 +86,7 @@ const Login = () => {
           message: "password  must be more than 8 character",
         },
       }));
-      // console.log("password false");
+     
       return false;
     } else {
       setValidation((prevState) => ({
@@ -107,7 +107,7 @@ const Login = () => {
 
     axios
       .post("/login", data).then((response) => {
-        console.log(response);
+  
         const { accessToken, refreshToken, user, id } = response.data;
 
         const disp = dispatch(

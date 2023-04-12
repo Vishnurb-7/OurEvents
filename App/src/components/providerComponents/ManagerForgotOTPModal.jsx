@@ -6,7 +6,7 @@ import axios from '../../utils/axios';
 import Countdown, { zeroPad } from 'react-countdown';
 
 
-const renderer = ({ hours, minutes, seconds }) => (
+const renderer = ({ minutes, seconds }) => (
   <span className='text-xl text-right'>
     {zeroPad(minutes)}:{zeroPad(seconds)}
   </span>
@@ -37,19 +37,18 @@ const ManagerForgotOTPModal = ({ visible, onClose, phone }) => {
   };
   const otpSentButtonHandler = async() => {
     if (otp.length < 6) {
-      console.log("invalid otp");
+    
       setError(true);
     } else {
       setError(false);
-      console.log("it is working with otp", otp);
+ 
 
       const data = { mobile: phone, otp: otp };
       try {
         const response = await axios.post("/provider/ChangePasswordOtp", data);
-        console.log("it is working with otp", response);
+      
         if (response.status === 201) {
-          console.log("response data ", response.data);
-          console.log("response password token ", response.data.passwordToken);
+        
 
           const token = response.data.passwordToken;
           const userId = response.data.userId;
@@ -58,7 +57,7 @@ const ManagerForgotOTPModal = ({ visible, onClose, phone }) => {
           setError(true);
         }
       } catch (error) {
-        console.log(error);
+       
       }
 
     
@@ -69,14 +68,14 @@ const ManagerForgotOTPModal = ({ visible, onClose, phone }) => {
     const data = { mobile: phone };
     try {
       const response = await axios.post("/resendOtp", data);
-      console.log("it is working with otp", response);
+     
       if (response.status === 201) {
         setresend(false)
       } else {
         setError(true);
       }
     } catch (error) {
-      console.log(error);
+    
     }
   };
 

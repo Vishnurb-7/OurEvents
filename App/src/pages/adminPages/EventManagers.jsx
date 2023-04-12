@@ -13,17 +13,17 @@ const EventManagers = () => {
     try {
 
       axios.get("/admin/approvedManagers").then((response) => {
-        console.log(response)
+     
         if (response.status === 200) {
 
           setdata(response.data.data)
-          console.log(data)
+         
         } else {
-          console.log("error");
+         
         }
       })
     } catch (error) {
-      console.log(error.message);
+     
 
     }
 

@@ -20,7 +20,7 @@ async function sendOtp(mobile) {
       .verifications.create({ to: `+91${mobile}`, channel: "sms" });
     return { status: true, verification };
   } catch (error) {
-    console.log(error.message);
+   
     return { status: false, error };
   }
   return { status: verification.status };
@@ -34,7 +34,7 @@ async function otpVerifyFunction(otp, mobile) {
   if (verification_check.status == "approved") {
     return { status: true };
   } else {
-    console.log('status false')
+
     return { status: false };
   }
 }
@@ -60,7 +60,7 @@ const signupWithEmail = async (req, res) => {
 
     const response = await sendOtp(req.body.providerData.phone);
 
-    console.log(response)
+
 
     if (response.status === true) {
       res.status(201).json({
@@ -74,7 +74,7 @@ const signupWithEmail = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
+
     res.status(400).json({ message: "error", error });
   }
 }
@@ -94,7 +94,7 @@ const otpVerify = async (req, res) => {
       res.status(400).json({ message: " invalid otp verification " });
     }
   } catch (error) {
-    console.log(error.message);
+
     res.status(400).json({ message: "otp failed", error: error.massage });
   }
 };
@@ -222,11 +222,11 @@ exports.changePassword = changePassword;
 
 
 const providerDetails = async (req, res) => {
-  console.log(req.body)
+
 
   try {
     const provider = await Provider.findOne({ email: req.body.email });
-    console.log(provider);
+
     res.status(200).json({ data: provider });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -263,23 +263,39 @@ const removeService = async (req, res) => {
 exports.removeService = removeService;
 
 
+const addImageOrVideo = async (req, res) => {
 
-const addimage = async (req, res) => {
-  console.log("imaaage is uploading===",req.body);
-  const { imageUrl, managers } = req.body;
+  const { imageUrl, videoUrl, managers } = req.body;
 
+  if (!imageUrl && !videoUrl) {
+    return res.status(400).json({ message: "Please provide either an image or video URL" });
+  }
 
-  if (imageUrl, managers) {
-    try {
-      const result = await Provider.findOneAndUpdate({ email: managers }, { $push: { gallery: imageUrl } })
+  try {
+    const provider = await Provider.findOne({ email: managers });
 
-      res.status(201).json({ message: "success" })
-    } catch (error) {
-      res.status(500).json({ message: error })
+    if (!provider) {
+      return res.status(404).json({ message: "Manager not found" });
     }
-  } else { res.status(500).json({ message: "error" }) }
-}
-exports.addimage = addimage;
+
+    if (imageUrl) {
+      provider.gallery.push(imageUrl);
+    } else if (videoUrl) {
+      provider.video.push(videoUrl);
+    }
+
+    await provider.save();
+
+    res.status(201).json({ message: "Media added successfully" });
+  } catch (error) {
+
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+exports.addImageOrVideo = addImageOrVideo;
+
+
 
 
 const removeImage = async (req, res) => {
@@ -312,7 +328,7 @@ exports.editProfileGet = editProfileGet;
 
 const editProfilePut = async (req, res) => {
   const { email, name, description, place } = req.body
-  console.log(email);
+
   if (req.body.coverPhotoUrl && req.body.profilePhotoUrl) {
     try {
       await Provider.findOneAndUpdate({email}, { companyname: name, description: description, place: place, coverPhoto: req.body.coverPhotoUrl, profilePhoto: req.body.profilePhotoUrl })

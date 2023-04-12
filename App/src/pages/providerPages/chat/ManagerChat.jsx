@@ -16,6 +16,8 @@ const ManagerChat = () => {
     // const { user } = useSelector((state) => state.authReducer.authData);
     const userId = useSelector(managersId)
 
+
+
     const [chats, setChats] = useState([]);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
@@ -32,6 +34,7 @@ const ManagerChat = () => {
                 const { data } = await managerAxios.get(`/chat/${userId}`);
                 setChats(data);
             } catch (error) {
+            
                 alert("server error")
             }
         };

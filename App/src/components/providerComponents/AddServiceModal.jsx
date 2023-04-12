@@ -6,7 +6,7 @@ import { useToast } from '@chakra-ui/toast';
 import managerAxios from '../../utils/managerAxios';
 
 const AddServiceModal = ({ visible, onClose, inService }) => {
-  // console.log(inService);
+
   const [data, setData] = useState("");
   const [error, setError] = useState("");
   const managers = useSelector(managersData)

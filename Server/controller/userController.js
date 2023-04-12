@@ -1,7 +1,7 @@
 const { User } = require("../model/userModel")
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const { response } = require("express");
+const Token = require("../model/tokenModal");
 const crypto = require("crypto");
 const Joi = require("joi");
 const { Provider } = require("../model/eventManagerModel");
@@ -14,41 +14,32 @@ const client = require("twilio")(accountSid, authToken);
 
 async function sendOtp(mobile) {
   mobile = Number(mobile);
-  // console.log(mobile);
+
   
   try {
-    
-    // console.log('mobile');
+
     const verification = await client.verify.v2
       .services(serviceSid)
       .verifications.create({ to: `+91${mobile}`, channel: "sms" });
     return { status: true, verification };
   } catch (error) {
-    // console.log(error);
+
     return { status: false, error };
   }
-  return { status: verification.status };
 }
 
 
 async function otpVerifyFunction(otp, mobile) {
-  // console.log('verifying')
-  try {
-    const verification_check = await client.verify.v2
-      .services(serviceSid)
-      .verificationChecks.create({ to: `+91${mobile}`, code: otp });
-    
-  } catch (error) {
-    // console.log(error);
-    // console.log(error.message)
-  }
-    // console.log(verification_check);
+  const verification_check = await client.verify.v2
+    .services(serviceSid)
+    .verificationChecks.create({ to: `+91${mobile}`, code: otp });
   if (verification_check.status == "approved") {
     return { status: true };
   } else {
     return { status: false };
   }
 }
+
 
 const googleSignup = async (req, res) => {
 
@@ -74,7 +65,7 @@ exports.googleSignup = googleSignup;
 
 
 const signup = async (req, res) => {
-  // console.log('heyheyhey');
+ 
   const hash = await bcrypt.hash(req.body.password, 5);
 
   const user = new User({
@@ -86,11 +77,11 @@ const signup = async (req, res) => {
   })
 
   try {
-    // console.log('ho')
+
     await user.save();
-    // console.log('hello');
+
     const response = await sendOtp(req.body.phone);
-    // console.log('hey')
+ 
 
     if (response.status === true) {
       res.status(201).json({
@@ -152,7 +143,6 @@ const resendOtp = async (req, res) => {
 exports.resendOtp = resendOtp;
 
 const forgotPassword = async (req, res) => {
-  // console.log('hey');
   const { mobile } = req.body;
   try {
     const user = await User.findOne({
@@ -176,6 +166,7 @@ const forgotPassword = async (req, res) => {
       res.status(400).json(`there is no user with mobile number${mobile}`);
     }
   } catch (error) {
+   
     res.status(500).json("server addichu poy, call the developer");
   }
 };
@@ -183,16 +174,19 @@ exports.forgotPassword = forgotPassword;
 
 const ChangePasswordOtp = async (req, res) => {
   try {
-    // console.log(req.body);
+
     const { mobile, otp } = req.body;
+
     const response = await otpVerifyFunction(otp, mobile);
-    // console.log(response,'verifyresponse');
+ 
     if (response.status === true) {
       const user = await User.findOne({
         phone: mobile,
         approved: true,
       });
+     
       if (user) {
+       
         let passwordToken = await Token.findOne({ userId: user._id });
         if (!passwordToken) {
           passwordToken = await new Token({
@@ -212,6 +206,7 @@ const ChangePasswordOtp = async (req, res) => {
       res.status(400).json("invalid otp");
     }
   } catch (error) {
+
     res.status(500).json("server addichr poy");
   }
 };
@@ -251,11 +246,11 @@ exports.changePassword = changePassword;
 const findManagers = async (req, res) => {
   const { service, place } = req.query;
 
-  console.log(req.query);
+
 
   try {
     const response = await Provider.find({ category: service, place: place })
-    console.log(response);
+   
     res.status(201).json(response)
   } catch (error) {
     res.status(500).json({ message: error })
@@ -264,7 +259,7 @@ const findManagers = async (req, res) => {
 exports.findManagers = findManagers;
 
 const managerProfile = async (req, res) => {
-  console.log("hello");
+
   const id = req.query.id;
 
   try {

@@ -1,5 +1,4 @@
 import React,{useState} from 'react'
-import { FcGoogle} from 'react-icons/fc'
 import { useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from '../utils/axios';
@@ -67,7 +66,7 @@ const Signup = () => {
           message: "is this really your email ?",
         },
       }));
-      console.log("email false");
+  
 
       return false;
     } else {
@@ -92,7 +91,7 @@ const Signup = () => {
           message: "is this really your phone ?",
         },
       }));
-      // console.log("phone false");
+ 
 
       return false;
     } else {
@@ -116,7 +115,7 @@ const Signup = () => {
           message: "password  must be more than 8 character",
         },
       }));
-      // console.log("password false");
+ 
       return false;
     } else {
       setValidation((prevState) => ({
@@ -141,7 +140,7 @@ const Signup = () => {
     const data = { email: userData.email,phone:userData.phone, password: userData.password, };
     try {
       const response = await axios.post("/signup", data);
-      console.log("it is working ", response);
+    
 
 
 
@@ -170,7 +169,7 @@ const Signup = () => {
 
 
     } catch (error) {
-      console.log(error);
+  
       // setError(true);
     }
   }

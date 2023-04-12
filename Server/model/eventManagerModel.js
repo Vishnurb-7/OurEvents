@@ -22,7 +22,8 @@ const providerSchema = new schema(
         coverPhoto: { type: String, trim: true },
         profilePhoto: { type: String, trim: true },
         refreshToken: [String],
-        gallery: { type: Array, default: [], required: true, trim: true },
+        gallery: { type: Array, default: [],  trim: true },
+        video: { type: Array, default: [],  trim: true },
   },
   { timestamps: true }
 );

@@ -1,8 +1,4 @@
-
-
- const express = require("express");
-const mongoose = require("mongoose");
-const path = require("path");
+const express = require("express");
 const cors = require("cors");
 const dbconfig = require("./config/dbConfig");
 require("dotenv/config")

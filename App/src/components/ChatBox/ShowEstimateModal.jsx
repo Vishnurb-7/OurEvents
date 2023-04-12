@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import userAxios from '../../utils/userAxios';
 
 const ShowEstimateModal = ({ visible, onClose, userId, managerId }) => {
-    // const [total, setTotal] = useState(0);
+
     const [estimate, setEstimate] = useState([]);
     const toast = useToast();
     const dispatch = useDispatch();

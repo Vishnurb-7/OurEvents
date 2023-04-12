@@ -11,14 +11,14 @@ const MoreRequest = ({ visible, onClose, data }) => {
             axios.post("/admin/approve",value).then((response) => {
 
               if (response.status === 200) {
-                  console.log(response);
+              
                   onClose();
               } else {
                 alert("SOMETHING WRONG!!!!!!!!!!!!!")
               }
             })
           } catch (error) {
-            console.log(error);
+           
             alert("SOMETHING WRONG!!!!!!!!!!!!!")
           }
 }
@@ -31,14 +31,14 @@ const MoreRequest = ({ visible, onClose, data }) => {
             axios.post("/admin/reject",value).then((response) => {
 
               if (response.status === 200) {
-                  console.log(response);
+                
                   onClose();
               } else {
                 alert("SOMETHING WRONG!!!!!!!!!!!!!")
               }
             })
           } catch (error) {
-            console.log(error);
+    
             alert("SOMETHING WRONG!!!!!!!!!!!!!")
           }
     }

@@ -15,7 +15,7 @@ const Chat = () => {
     const socket = useRef();
     // const { user } = useSelector((state) => state.authReducer.authData);
     const userId = useSelector(currentUserId)
-    console.log(userId);
+
 
     const [chats, setChats] = useState([]);
     const [onlineUsers, setOnlineUsers] = useState([]);
@@ -31,7 +31,7 @@ const Chat = () => {
         const getChats = async () => {
             try {
                 const { data } = await userAxios.get(`/chat/${userId}`);
-                console.log(userId);
+              
                 setChats(data);
             } catch (error) {
                 alert("server error")

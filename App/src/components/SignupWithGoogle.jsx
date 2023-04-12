@@ -11,23 +11,23 @@ const SignupWithGoogle = ({onError}) => {
     const navigate =  useNavigate()
 
     const handleCallBackResponse = async (response) => { 
-        // console.log("Encoded JWT ID Token" + response.credential);
+    
         const userObject = jwtDecode(response.credential);
 
         const data = { email: userObject.email }
         try {
             const result = await axios.post('/googleSignup', data)
-            console.log(result);
+           
             if (result.status === 200) { 
 
                 navigate('/')
             } else {
                 onError()
-                console.log("error@@@@@@@@@@@@@@");
+                
             }
         } catch (error) {
             onError()
-            console.log("error####################");
+          
         }
 
 
@@ -36,7 +36,7 @@ const SignupWithGoogle = ({onError}) => {
 
     }
 
-    // console.log(user)
+    
     // if (user != "" || user == null) {
     //         navigate('/')
 

@@ -2,93 +2,81 @@ const { Provider } = require("../model/eventManagerModel")
 const { Admin } = require("../model/adminModel")
 const nodemailer = require('nodemailer');
 const { response } = require("express");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { User } = require("../model/userModel");
 const { Estimate } = require("../model/estimateModel");
 
 
 const addAdmin = async (req, res) => {
-  const hash = await bcrypt.hash(req.body.password, 5);
-
-  const admin = new Admin({
-    name: req.body.name,
-    password: hash,
-  })
   try {
+    const hash = await bcrypt.hash(req.body.password, 5);
+    const admin = new Admin({
+      name: req.body.name,
+      password: hash,
+    });
     await admin.save();
-    res.status(200);
-  } catch (error) {
-    res.status(500);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
   }
-}
+};
 
 
 
 const userData = async (req, res) => {
-
   try {
-    const managers = await User.find({ verified: true })
-    if (managers) {
-      res.status(200).json({
-        message: 'success',
-        data: managers,
-      })
-    } else {
-      res.status(400).json({
-        message: 'error',
-      })
-    }
-  } catch (error) {
-    res.status(400).json({
-      message: 'error',
-    })
+    const managers = await User.find({ verified: true });
+    res.status(200).json({
+      message: "success",
+      data: managers,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "error",
+    });
   }
+};
 
-}
 
 const managerData = async (req, res) => {
-
   try {
-    const managers = await Provider.find({ approved: false })
-
-    if (managers) {
-      res.status(200).json({
-        message: 'success',
-        data: managers,
-      })
-    } else {
-      res.status(400).json({
-        message: 'error',
-      })
-    }
-  } catch (error) {
-    res.status(400).json({
-      message: 'error'
-    })
+    const managers = await Provider.find({ approved: false });
+    res.status(200).json({
+      message: "success",
+      data: managers,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "error",
+    });
   }
-}
+};
+
 
 const approvedManagers = async (req, res) => {
-
   try {
     const managers = await Provider.find({ approved: true })
-    if (managers) {
+    if (managers.length > 0) {
       res.status(200).json({
         message: 'success',
         data: managers,
       })
     } else {
-      res.status(400).json({
-        message: 'error',
+      res.status(404).json({
+        message: 'No approved managers found',
       })
     }
   } catch (error) {
-    res.status(400).json({
-      message: 'error',
+    console.error(error)
+    res.status(500).json({
+      message: 'Server error',
     })
   }
 }
+
 
 const approve = async (req, res) => {
   const { id } = req.body;
@@ -176,7 +164,7 @@ const unblockUser = async (req, res) => {
 }
 
 const sendEmail = async (toEmail, status) => {
-  console.log(toEmail, status);
+ 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -194,7 +182,7 @@ const sendEmail = async (toEmail, status) => {
   };
 
   const info = await transporter.sendMail(mailOptions);
-  console.log(`Email sent to ${toEmail}: ${info.messageId}`);
+
   return;
 };
 
@@ -203,7 +191,7 @@ const transactions = async (req, res) => {
     const result = await Estimate.find({ paid: true })
     res.status(201).json(result);
   } catch (error) {
-    console.log(error.message);
+   
     res.status(500).json(error);
   }
 }

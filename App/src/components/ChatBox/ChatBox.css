@@ -21,7 +21,7 @@
 
 .message {
 
-    background: linear-gradient(98.63deg, #f06124 0%, #f935b1 100%);
+    background: linear-gradient(98.63deg, #25c3ce 0%, #2edaf8 100%);
     color: white;
     padding: 0.7rem;
     border-radius: 1rem 1rem 1rem 0;
@@ -41,7 +41,7 @@
 .own {
     align-self: flex-end;
     border-radius: 1rem 1rem 0 1rem;
-    background: linear-gradient(98.63deg, #3fceea 0%, #35f99a99 100%);
+    background: linear-gradient(98.63deg, #5693e4 0%, #2f59b499 100%);
 }
 
 
